@@ -1,29 +1,31 @@
+
 import express from 'express';
 
 import dotenv from 'dotenv';
 
 import db from './Config/db.js';
 
-import userRoutes from "./Routes/userRoutes.js";
+import userRoutes from './Routes/userRoutes.js';
+
+import buildingcategoryRoutes from './Routes/buildingcategoryRoutes.js';
+
+import buildingmaterialRoutes from './Routes/buildingmaterialRoutes.js';
+
+import depotsaleRoutes from './Routes/depotsaleRoutes.js';
 
 import session from 'express-session';
-
-
 
 // Load environment variables
 
 dotenv.config();
 
-
 // Create Express application
 
 const app = express();
 
-
 // Middleware
 
 app.use(express.json());
-
 
 // Homepage Route
 
@@ -32,7 +34,6 @@ app.get('/', (req, res) => {
         message: 'Welcome! Backend API is running successfully.'
     });
 });
-
 
 // Connect to MySQL database
 
@@ -49,10 +50,8 @@ try {
     process.exit(1);
 }
 
-
-
 // Session configuration
-g
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -60,11 +59,24 @@ app.use(session({
 }));
 
 
-
 // Connect user routes
 
 app.use("/api/users", userRoutes);
 
+
+// Connect building category routes
+
+app.use("/api/building-categories", buildingcategoryRoutes);
+
+
+// Connect building material routes
+
+app.use("/api/building-materials", buildingmaterialRoutes);
+
+
+// Connect depot sale routes
+
+app.use("/api/depot-sales", depotsaleRoutes);
 
 // Server port
 
